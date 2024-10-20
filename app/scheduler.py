@@ -1,31 +1,18 @@
-import json
-import datetime
-import os
-from .utils import update_plex_preroll
+# app/scheduler.py
+
+from apscheduler.schedulers.background import BackgroundScheduler
+from .utils import check_and_update_preroll
+import pytz
 import logging
 
-def is_current_date_in_range(start_date_str, end_date_str):
-    today = datetime.datetime.now()
-    start_date = datetime.datetime.strptime(start_date_str, "%m-%d").replace(year=today.year)
-    end_date = datetime.datetime.strptime(end_date_str, "%m-%d").replace(year=today.year)
+scheduler = BackgroundScheduler()
 
-    # Handle year change (e.g., December to January)
-    if end_date < start_date:
-        end_date = end_date.replace(year=end_date.year + 1)
+def init_app(app):
+    """Initialize and start the scheduler."""
+    # Use pytz to set the correct timezone (e.g., 'America/Chicago' for CDT)
+    timezone = pytz.timezone('America/Chicago')  # Replace with your preferred timezone
 
-    return start_date <= today <= end_date
-
-def check_and_update_preroll():
-    try:
-        with open(os.path.join('config', 'holidays.json')) as f:
-            holidays = json.load(f)['holidays']
-        plex_token = os.getenv('PLEX_TOKEN')
-        plex_base_url = os.getenv('PLEX_BASE_URL')
-        for holiday in holidays:
-            if is_current_date_in_range(holiday['start_date'], holiday['end_date']):
-                update_plex_preroll(plex_token, plex_base_url, holiday['pre_roll'])
-                return
-        # If no holiday matches, clear pre-roll
-        update_plex_preroll(plex_token, plex_base_url, '')
-    except Exception as e:
-        logging.error(f"Error in scheduler: {e}")
+    # Schedule the job with the proper timezone
+    scheduler.add_job(func=check_and_update_preroll, trigger="cron", hour=0, minute=0, timezone=timezone)
+    scheduler.start()
+    app.logger.info("Scheduler started and job added.")

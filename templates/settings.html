@@ -1,0 +1,17 @@
+<!-- templates/settings.html -->
+{% extends 'layout.html' %}
+
+{% block content %}
+<h1>Edit Plex Settings</h1>
+<form method="POST">
+    <div class="form-group">
+        <label for="base_url">Plex Server URL</label>
+        <input type="text" class="form-control" id="base_url" name="base_url" value="{{ plex.base_url }}" required>
+    </div>
+    <div class="form-group">
+        <label for="token">Plex Token</label>
+        <input type="text" class="form-control" id="token" name="token" value="{{ plex.token }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Save Settings</button>
+</form>
+{% endblock %}

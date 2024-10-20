@@ -1,14 +1,17 @@
-{% extends "layout.html" %}
+<!-- templates/index.html -->
+{% extends 'layout.html' %}
 
 {% block content %}
-<h1>Current Holiday Schedule</h1>
+<h1>Welcome to the Plex Pre-roll Scheduler</h1>
+<h2>Current Holiday Schedules</h2>
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Holiday</th>
             <th>Start Date</th>
             <th>End Date</th>
-            <th>Pre-roll Path</th>
+            <th>Pre-roll Paths</th>
+            <th>Selection Mode</th>
         </tr>
     </thead>
     <tbody>
@@ -17,9 +20,23 @@
             <td>{{ holiday.name }}</td>
             <td>{{ holiday.start_date }}</td>
             <td>{{ holiday.end_date }}</td>
-            <td>{{ holiday.pre_roll }}</td>
+            <td>
+                <ul>
+                    {% for pre_roll in holiday.pre_rolls %}
+                        <li>{{ pre_roll }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>{{ holiday.selection_mode.capitalize() }}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+
+<form method="POST" action="{{ url_for('main.trigger_update') }}">
+    <button type="submit" class="btn btn-warning">Trigger Pre-roll Update</button>
+</form>
+
+<a href="{{ url_for('main.manage_holidays') }}" class="btn btn-secondary">Manage Holidays</a>
+<a href="{{ url_for('main.settings') }}" class="btn btn-secondary">Settings</a>
 {% endblock %}

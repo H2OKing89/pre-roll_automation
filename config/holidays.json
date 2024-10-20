@@ -1,65 +1,104 @@
 {
     "holidays": [
-      {
-        "name": "Years",
-        "start_date": "12-26",
-        "end_date": "01-04",
-        "pre_roll": "/pre-rolls/plex/christmas/Snow Globe Plex Pre-roll.mp4"
-      },
-      {
-        "name": "Valentine",
-        "start_date": "02-01",
-        "end_date": "02-29",
-        "pre_roll": "/pre-rolls/valentine/Valentine Pre-roll.mp4"
-      },
-      {
-        "name": "Easter",
-        "start_date": "03-20",
-        "end_date": "04-30",
-        "pre_roll": "/pre-rolls/easter/Easter Pre-roll.mp4"
-      },
-      {
-        "name": "Mother",
-        "start_date": "05-05",
-        "end_date": "05-10",
-        "pre_roll": "/pre-rolls/mother/Mother's Day Pre-roll.mp4"
-      },
-      {
-        "name": "Memorial",
-        "start_date": "05-18",
-        "end_date": "06-07",
-        "pre_roll": "/pre-rolls/memorial/Memorial Day Pre-roll.mp4"
-      },
-      {
-        "name": "Independence",
-        "start_date": "06-23",
-        "end_date": "07-11",
-        "pre_roll": "/pre-rolls/independence/Independence Day Pre-roll.mp4"
-      },
-      {
-        "name": "Labor",
-        "start_date": "09-01",
-        "end_date": "09-10",
-        "pre_roll": "/pre-rolls/labor/Labor Day Pre-roll.mp4"
-      },
-      {
-        "name": "Halloween",
-        "start_date": "10-01",
-        "end_date": "10-31",
-        "pre_roll": "/pre-rolls/halloween/Halloween Pre-roll.mp4"
-      },
-      {
-        "name": "Thanksgiving",
-        "start_date": "11-01",
-        "end_date": "11-30",
-        "pre_roll": "/pre-rolls/thanksgiving/Thanksgiving Pre-roll.mp4"
-      },
-      {
-        "name": "Christmas",
-        "start_date": "12-01",
-        "end_date": "12-31",
-        "pre_roll": "/pre-rolls/plex/christmas/Snow Globe Plex Pre-roll.mp4"
-      }
+        {
+            "name": "New Years",
+            "start_date": "12-26",
+            "end_date": "01-04",
+            "pre_rolls": [
+                "/pre-rolls/plex/christmas/Snow Globe Plex Pre-roll.mp4"
+            ],
+            "selection_mode": "random",
+            "last_index": 0
+        },
+        {
+            "name": "Valentine",
+            "start_date": "02-01",
+            "end_date": "02-29",
+            "pre_rolls": [
+                "/pre-rolls/plex/valentine/Valentine Pre-roll.mp4"
+            ],
+            "selection_mode": "random",
+            "last_index": 0
+        },
+        {
+            "name": "Easter",
+            "start_date": "03-20",
+            "end_date": "04-30",
+            "pre_rolls": [
+                "/pre-rolls/plex/easter/Easter Pre-roll.mp4"
+            ],
+            "selection_mode": "random",
+            "last_index": 0
+        },
+        {
+            "name": "Mother",
+            "start_date": "05-05",
+            "end_date": "05-10",
+            "pre_rolls": [
+                "/pre-rolls/plex/mother/Mother's Day Pre-roll.mp4"
+            ],
+            "selection_mode": "random",
+            "last_index": 0
+        },
+        {
+            "name": "Memorial",
+            "start_date": "05-18",
+            "end_date": "06-07",
+            "pre_rolls": [
+                "/pre-rolls/plex/memorial/Memorial Day Pre-roll.mp4"
+            ],
+            "selection_mode": "random",
+            "last_index": 0
+        },
+        {
+            "name": "Independence",
+            "start_date": "06-23",
+            "end_date": "07-11",
+            "pre_rolls": [
+                "/pre-rolls/plex/independence/Independence Day Pre-roll.mp4"
+            ],
+            "selection_mode": "random",
+            "last_index": 0
+        },
+        {
+            "name": "Labor",
+            "start_date": "09-01",
+            "end_date": "09-10",
+            "pre_rolls": [
+                "/pre-rolls/plex/labor/Labor Day Pre-roll.mp4"
+            ],
+            "selection_mode": "random",
+            "last_index": 0
+        },
+        {
+            "name": "Halloween",
+            "start_date": "10-01",
+            "end_date": "10-31",
+            "pre_rolls": [
+                "/pre-rolls/plex/halloween/Halloween Pre-roll.mp4"
+            ],
+            "selection_mode": "random",
+            "last_index": 0
+        },
+        {
+            "name": "Thanksgiving",
+            "start_date": "11-01",
+            "end_date": "11-30",
+            "pre_rolls": [
+                "/pre-rolls/plex/thanksgiving/Thanksgiving Pre-roll.mp4"
+            ],
+            "selection_mode": "random",
+            "last_index": 0
+        },
+        {
+            "name": "Christmas",
+            "start_date": "12-01",
+            "end_date": "12-31",
+            "pre_rolls": [
+                "/pre-rolls/plex/christmas/Christmas Pre-roll.mp4"
+            ],
+            "selection_mode": "random",
+            "last_index": 0
+        }
     ]
-  }
-  
+}

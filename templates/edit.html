@@ -1,13 +1,38 @@
+<!-- templates/edit.html -->
+
 {% extends "layout.html" %}
 
 {% block content %}
-<h1>Edit Holiday Schedule</h1>
-<form method="POST">
-    <div class="form-group">
-        <label for="holidays">Holiday Schedule (JSON)</label>
-        <textarea class="form-control" id="holidays" name="holidays" rows="15">{{ holidays | tojson(indent=4) }}</textarea>
-        <small class="form-text text-muted">Ensure the JSON format is correct.</small>
+<h2>Edit Holiday Schedule</h2>
+
+<form method="POST" action="{{ url_for('main.edit') }}">
+    <div id="holidays-container">
+        {% for holiday in holidays %}
+        <div class="holiday-entry border p-3 mb-3">
+            <h4>Holiday {{ loop.index }}</h4>
+            <div class="form-group">
+                <label for="name_{{ loop.index }}">Name</label>
+                <input type="text" class="form-control" id="name_{{ loop.index }}" name="name_{{ loop.index }}" value="{{ holiday.name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="start_date_{{ loop.index }}">Start Date (MM-DD)</label>
+                <input type="text" class="form-control" id="start_date_{{ loop.index }}" name="start_date_{{ loop.index }}" value="{{ holiday.start_date }}" placeholder="e.g., 12-26" required>
+            </div>
+            <div class="form-group">
+                <label for="end_date_{{ loop.index }}">End Date (MM-DD)</label>
+                <input type="text" class="form-control" id="end_date_{{ loop.index }}" name="end_date_{{ loop.index }}" value="{{ holiday.end_date }}" placeholder="e.g., 01-04" required>
+            </div>
+            <div class="form-group">
+                <label for="pre_roll_{{ loop.index }}">Pre-roll Path</label>
+                <input type="text" class="form-control" id="pre_roll_{{ loop.index }}" name="pre_roll_{{ loop.index }}" value="{{ holiday.pre_roll }}" placeholder="/path/to/pre-roll.mp4" required>
+            </div>
+        </div>
+        {% endfor %}
     </div>
-    <button type="submit" class="btn btn-primary">Save Changes</button>
+
+    <input type="hidden" name="num_holidays" value="{{ holidays|length }}">
+
+    <button type="submit" class="btn btn-success">Save Changes</button>
+    <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Cancel</a>
 </form>
 {% endblock %}

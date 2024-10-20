@@ -1,0 +1,66 @@
+<!-- templates/holidays.html -->
+{% extends 'layout.html' %}
+
+{% block content %}
+<h1>Manage Holiday Schedules</h1>
+<form method="POST">
+    <input type="hidden" name="holiday_count" value="{{ holidays|length }}">
+    {% for holiday in holidays %}
+        {% set holiday_class = '' %}
+        {% if holiday.name.lower() == 'years' %}
+            {% set holiday_class = 'holiday-years' %}
+        {% elif holiday.name.lower() == 'valentine' %}
+            {% set holiday_class = 'holiday-valentine' %}
+        {% elif holiday.name.lower() == 'easter' %}
+            {% set holiday_class = 'holiday-easter' %}
+        {% elif holiday.name.lower() == 'mother' %}
+            {% set holiday_class = 'holiday-mother' %}
+        {% elif holiday.name.lower() == 'memorial' %}
+            {% set holiday_class = 'holiday-memorial' %}
+        {% elif holiday.name.lower() == 'independence' %}
+            {% set holiday_class = 'holiday-independence' %}
+        {% elif holiday.name.lower() == 'labor' %}
+            {% set holiday_class = 'holiday-labor' %}
+        {% elif holiday.name.lower() == 'halloween' %}
+            {% set holiday_class = 'holiday-halloween' %}
+        {% elif holiday.name.lower() == 'thanksgiving' %}
+            {% set holiday_class = 'holiday-thanksgiving' %}
+        {% elif holiday.name.lower() == 'christmas' %}
+            {% set holiday_class = 'holiday-christmas' %}
+        {% else %}
+            {% set holiday_class = 'holiday-default' %}
+        {% endif %}
+        
+        <div class="card holiday-card {{ holiday_class }}">
+            <div class="card-body">
+                <h5 class="card-title">Holiday {{ loop.index }}: {{ holiday.name }}</h5>
+                <div class="form-group">
+                    <label for="holiday_name_{{ loop.index }}">Holiday Name</label>
+                    <input type="text" class="form-control" id="holiday_name_{{ loop.index }}" name="holiday_name_{{ loop.index }}" value="{{ holiday.name }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="holiday_start_{{ loop.index }}">Start Date (MM-DD)</label>
+                    <input type="text" class="form-control" id="holiday_start_{{ loop.index }}" name="holiday_start_{{ loop.index }}" value="{{ holiday.start_date }}" required pattern="^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$" title="Enter date in MM-DD format">
+                </div>
+                <div class="form-group">
+                    <label for="holiday_end_{{ loop.index }}">End Date (MM-DD)</label>
+                    <input type="text" class="form-control" id="holiday_end_{{ loop.index }}" name="holiday_end_{{ loop.index }}" value="{{ holiday.end_date }}" required pattern="^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$" title="Enter date in MM-DD format">
+                </div>
+                <div class="form-group">
+                    <label for="holiday_preroll_{{ loop.index }}">Pre-roll Paths</label>
+                    <input type="text" class="form-control" id="holiday_preroll_{{ loop.index }}" name="holiday_preroll_{{ loop.index }}" value="{{ holiday.pre_rolls | join(', ') }}" required>
+                    <small class="form-text text-muted">Enter multiple pre-roll paths separated by commas for sequential selection.</small>
+                </div>
+                <div class="form-group">
+                    <label for="holiday_selection_mode_{{ loop.index }}">Selection Mode</label>
+                    <select class="form-control" id="holiday_selection_mode_{{ loop.index }}" name="holiday_selection_mode_{{ loop.index }}">
+                        <option value="sequential" {% if holiday.selection_mode == 'sequential' %}selected{% endif %}>Sequential</option>
+                        <option value="random" {% if holiday.selection_mode == 'random' %}selected{% endif %}>Random</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Save Holidays</button>
+</form>
+{% endblock %}

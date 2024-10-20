@@ -1,3 +1,76 @@
+/* static/css/styles.css */
+
+/* Base styling for the body */
 body {
-    padding-top: 70px;
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f8f9fa;
+}
+
+/* Styling for headings */
+h1, h2 {
+    color: #343a40;
+}
+
+/* Margin for tables */
+.table {
+    margin-top: 20px;
+}
+
+/* Button spacing */
+.btn {
+    margin-right: 10px;
+}
+
+/* Custom styles for holiday cards */
+.holiday-card {
+    margin-bottom: 20px;
+}
+
+/* Define colors for different holidays */
+.holiday-years {
+    border-left: 5px solid #FFCDD2; /* Light Red */
+}
+
+.holiday-valentine {
+    border-left: 5px solid #F8BBD0; /* Pink */
+}
+
+.holiday-easter {
+    border-left: 5px solid #E1BEE7; /* Purple */
+}
+
+.holiday-mother {
+    border-left: 5px solid #D1C4E9; /* Deep Purple */
+}
+
+.holiday-memorial {
+    border-left: 5px solid #C5CAE9; /* Indigo */
+}
+
+.holiday-independence {
+    border-left: 5px solid #BBDEFB; /* Light Blue */
+}
+
+.holiday-labor {
+    border-left: 5px solid #B3E5FC; /* Cyan */
+}
+
+.holiday-halloween {
+    border-left: 5px solid #FFECB3; /* Amber */
+}
+
+.holiday-thanksgiving {
+    border-left: 5px solid #FFE0B2; /* Orange */
+}
+
+.holiday-christmas {
+    border-left: 5px solid #C8E6C9; /* Light Green */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .holiday-card {
+        margin-bottom: 15px;
+    }
 }
