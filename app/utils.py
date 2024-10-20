@@ -74,16 +74,28 @@ def is_current_date_in_range(start_date_str, end_date_str):
     """
     today = datetime.datetime.now()
     try:
-        start_date = datetime.datetime.strptime(start_date_str, "%m-%d").replace(year=today.year)
-        end_date = datetime.datetime.strptime(end_date_str, "%m-%d").replace(year=today.year)
+        # Determine the year to use
+        year = today.year
+        # Handle leap year for February 29
+        try:
+            start_date = datetime.datetime.strptime(start_date_str, "%m-%d").replace(year=year)
+        except ValueError:
+            logging.error(f"Invalid start_date '{start_date_str}' for year {year}. Adjusting to 02-28.")
+            start_date = datetime.datetime.strptime("02-28", "%m-%d").replace(year=year)
+
+        try:
+            end_date = datetime.datetime.strptime(end_date_str, "%m-%d").replace(year=year)
+        except ValueError:
+            logging.error(f"Invalid end_date '{end_date_str}' for year {year}. Adjusting to 02-28.")
+            end_date = datetime.datetime.strptime("02-28", "%m-%d").replace(year=year)
 
         # Handle ranges that span over the end of the year
         if end_date < start_date:
-            end_date = end_date.replace(year=today.year + 1)
+            end_date = end_date.replace(year=year + 1)
 
         return start_date <= today <= end_date
     except Exception as e:
-        logging.error(f"Error parsing dates: {e}")
+        logging.error(f"Error parsing dates '{start_date_str}' - '{end_date_str}': {e}")
         return False
 
 def update_plex_preroll(pre_roll_path):
@@ -167,3 +179,66 @@ def check_and_update_preroll():
     # Clear pre-roll if no holiday matches
     update_plex_preroll('')
     logging.info("No current holiday match. Pre-roll cleared.")
+
+def check_overlapping_holidays(new_holidays):
+    """
+    Check if any holidays in new_holidays have overlapping date ranges.
+
+    Args:
+        new_holidays (list): List of holiday dicts with 'name', 'start_date', 'end_date'
+
+    Returns:
+        bool: True if overlaps exist, False otherwise
+        list: List of tuples indicating overlapping holiday names
+    """
+    date_ranges = []
+    overlaps = []
+
+    today = datetime.datetime.now()
+    year = today.year
+
+    for holiday in new_holidays:
+        name = holiday['name']
+        start_str = holiday['start_date']
+        end_str = holiday['end_date']
+
+        try:
+            start_date = datetime.datetime.strptime(start_str, "%m-%d").replace(year=year)
+        except ValueError as e:
+            logging.error(f"Invalid start_date '{start_str}' for holiday '{name}': {e}")
+            raise ValueError(f"Invalid start_date '{start_str}' for holiday '{name}'.")
+
+        try:
+            end_date = datetime.datetime.strptime(end_str, "%m-%d").replace(year=year)
+        except ValueError as e:
+            # Handle February 29
+            if start_date.month == 2 and start_date.day == 29:
+                end_date = datetime.datetime.strptime("02-28", "%m-%d").replace(year=year)
+            else:
+                logging.error(f"Invalid end_date '{end_str}' for holiday '{name}': {e}")
+                raise ValueError(f"Invalid end_date '{end_str}' for holiday '{name}'.")
+
+        # If end_date is earlier than start_date, assume it spans to next year
+        if end_date < start_date:
+            end_date = end_date.replace(year=year + 1)
+
+        date_ranges.append({
+            'name': name,
+            'start_date': start_date,
+            'end_date': end_date
+        })
+
+    # Sort date_ranges by start_date
+    date_ranges.sort(key=lambda x: x['start_date'])
+
+    # Check for overlaps
+    for i in range(1, len(date_ranges)):
+        prev = date_ranges[i-1]
+        current = date_ranges[i]
+        if current['start_date'] <= prev['end_date']:
+            overlaps.append((prev['name'], current['name']))
+
+    if overlaps:
+        return True, overlaps
+    else:
+        return False, []

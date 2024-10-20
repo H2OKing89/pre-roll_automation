@@ -1,18 +1,36 @@
 /* static/css/styles.css */
 
-/* Base styling for the body */
+/* Base styling using CSS variables */
+:root {
+    --bg-color: #f8f9fa;
+    --text-color: #343a40;
+    --card-bg-color: #ffffff;
+    --card-border-color: #dee2e6;
+    --btn-primary-bg: #007bff;
+    --btn-primary-border: #007bff;
+    --btn-success-bg: #28a745;
+    --btn-success-border: #28a745;
+    --btn-danger-bg: #dc3545;
+    --btn-danger-border: #dc3545;
+    --alert-success-bg: #d4edda;
+    --alert-success-border: #c3e6cb;
+    --alert-danger-bg: #f8d7da;
+    --alert-danger-border: #f5c6cb;
+    /* Add more variables as needed */
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
-    background-color: #f8f9fa;
+    background-color: var(--bg-color);
+    color: var(--text-color);
 }
 
-/* Styling for headings */
 h1, h2 {
-    color: #343a40;
+    color: var(--text-color);
 }
 
-/* Margin for tables */
+/* Table styling */
 .table {
     margin-top: 20px;
 }
@@ -25,6 +43,9 @@ h1, h2 {
 /* Custom styles for holiday cards */
 .holiday-card {
     margin-bottom: 20px;
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--card-border-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 /* Define colors for different holidays */
@@ -67,6 +88,70 @@ h1, h2 {
 .holiday-christmas {
     border-left: 5px solid #C8E6C9; /* Light Green */
 }
+
+.holiday-default {
+    border-left: 5px solid #B0BEC5; /* Light Blue Grey */
+}
+
+/* Alert styling */
+.alert {
+    border-radius: 0.25rem;
+}
+
+.alert-success {
+    background-color: var(--alert-success-bg);
+    border-color: var(--alert-success-border);
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: var(--alert-danger-bg);
+    border-color: var(--alert-danger-border);
+    color: #721c24;
+}
+
+/* Dark theme styles */
+body.dark-theme {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --card-bg-color: #1e1e1e;
+    --card-border-color: #333333;
+    --btn-primary-bg: #1a73e8;
+    --btn-primary-border: #1a73e8;
+    --btn-success-bg: #34a853;
+    --btn-success-border: #34a853;
+    --btn-danger-bg: #ea4335;
+    --btn-danger-border: #ea4335;
+    --alert-success-bg: #0f5132;
+    --alert-success-border: #0c3b29;
+    --alert-danger-bg: #842029;
+    --alert-danger-border: #6a1a21;
+    /* Add more dark theme variables as needed */
+}
+
+body.dark-theme .holiday-card {
+    background-color: var(--card-bg-color);
+    border-color: var(--card-border-color);
+    color: var(--text-color);
+}
+
+body.dark-theme .navbar {
+    background-color: #1e1e1e !important;
+}
+
+body.dark-theme .alert-success {
+    background-color: var(--alert-success-bg);
+    border-color: var(--alert-success-border);
+    color: #d1e7dd;
+}
+
+body.dark-theme .alert-danger {
+    background-color: var(--alert-danger-bg);
+    border-color: var(--alert-danger-border);
+    color: #f8d7da;
+}
+
+/* Add more dark theme specific styles as needed */
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

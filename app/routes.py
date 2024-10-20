@@ -1,8 +1,15 @@
 # app/routes.py
 
+import datetime
 from flask import Blueprint, render_template, request, redirect, url_for, flash, Response
 from functools import wraps
-from .utils import load_holidays, save_holidays, get_plex_settings, update_plex_settings
+from .utils import (
+    load_holidays,
+    save_holidays,
+    get_plex_settings,
+    update_plex_settings,
+    check_overlapping_holidays
+)
 import os
 
 main = Blueprint('main', __name__, template_folder='../templates')
@@ -87,9 +94,44 @@ def manage_holidays():
                         'last_index': 0  # Initialize last_index
                     })
 
+            # Initialize an empty list to collect all error messages
+            error_messages = []
+
+            # Validate each holiday's date format
+            for holiday in updated_holidays:
+                name = holiday['name']
+                start_date = holiday['start_date']
+                end_date = holiday['end_date']
+                try:
+                    datetime.datetime.strptime(start_date, "%m-%d")
+                except ValueError:
+                    error_messages.append(f"Invalid start date '{start_date}' for holiday '{name}'. Please use MM-DD format.")
+
+                try:
+                    datetime.datetime.strptime(end_date, "%m-%d")
+                except ValueError:
+                    error_messages.append(f"Invalid end date '{end_date}' for holiday '{name}'. Please use MM-DD format.")
+
+            # Check for overlapping holidays only if no date format errors
+            if not error_messages:
+                overlaps_exist, overlapping_pairs = check_overlapping_holidays(updated_holidays)
+                if overlaps_exist:
+                    for pair in overlapping_pairs:
+                        error_messages.append(f"Holiday '{pair[0]}' overlaps with holiday '{pair[1]}'.")
+
+            # If there are errors, flash all of them and do not save
+            if error_messages:
+                for msg in error_messages:
+                    flash(msg, 'danger')
+                return redirect(url_for('main.manage_holidays'))
+
+            # If no errors, save the holidays
             save_holidays(updated_holidays)
             flash('Holiday schedules updated successfully!', 'success')
             return redirect(url_for('main.index'))
+        except ValueError as ve:
+            flash(str(ve), 'danger')
+            return redirect(url_for('main.manage_holidays'))
         except Exception as e:
             flash(f'Error updating holidays: {e}', 'danger')
             return redirect(url_for('main.manage_holidays'))
