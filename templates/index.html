@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Current Holiday Schedule</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Holiday</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Pre-roll Path</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for holiday in holidays %}
+        <tr>
+            <td>{{ holiday.name }}</td>
+            <td>{{ holiday.start_date }}</td>
+            <td>{{ holiday.end_date }}</td>
+            <td>{{ holiday.pre_roll }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
